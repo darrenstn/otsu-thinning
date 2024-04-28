@@ -45,6 +45,7 @@ public class Menu extends JFrame {
     JSlider gammaSlider = new JSlider(0, 1000, 22);
     JButton reProcessBtn = new JButton("Reprocess");
     JCheckBox negativeCB = new JCheckBox("Make Selected Image Negative");
+    BufferedImage imgEdit;
     
     public Menu() {
         JPanel menuPanel = new JPanel();
@@ -75,15 +76,14 @@ public class Menu extends JFrame {
         JPanel imgGrayScaleOutputPanel = new JPanel();
         JPanel imgOtsuOutputPanel = new JPanel();
         JPanel imgThinningOutputPanel = new JPanel();
-
+        
+        JFileChooser jUploadFile = new JFileChooser();
+        jUploadFile.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        jUploadFile.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png"));
         JButton chooseBtn = new JButton("Choose Image");
         chooseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                JFileChooser jUploadFile = new JFileChooser();
-                jUploadFile.setCurrentDirectory(new File(System.getProperty("user.dir")));
-                jUploadFile.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png"));
                 int result = jUploadFile.showOpenDialog(null);
                 
                 if (result == JFileChooser.APPROVE_OPTION) {
@@ -99,6 +99,8 @@ public class Menu extends JFrame {
                             imgSelected = ImageIO.read(selectedFile);
                             
                             int defaultGamma = 18;
+                            gammaSlider.setValue(defaultGamma);
+                            sliderLabel.setText("Gamma Value : " + new DecimalFormat ("#.00").format ((((float)gammaSlider.getValue())/10)));
                             
                             imgInput = Controller.deepCopy(imgSelected);
                             ImageIcon iconInput = new ImageIcon(imgInput);
@@ -141,7 +143,7 @@ public class Menu extends JFrame {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
                                     try {
-                                        BufferedImage imgEdit = ImageIO.read(jUploadFile.getSelectedFile());
+                                        imgEdit = ImageIO.read(jUploadFile.getSelectedFile());
                                         imgInputPanel.removeAll();
                                         imgInput = Controller.deepCopy(imgEdit);
                                         ImageIcon iconInput = new ImageIcon(imgInput);
@@ -176,8 +178,7 @@ public class Menu extends JFrame {
                                         imgThinning = Controller.deepCopy(imgEdit);
                                         ImageIcon iconThinning = new ImageIcon(imgThinning);
                                         JLabel imgThinningLabel = new JLabel();
-                                        imgThinningLabel.setIcon(iconThinning);
-                                        
+                                        imgThinningLabel.setIcon(iconThinning);                    
                                         imgThinningOutputPanel.add(imgThinningLabel);
                                     } catch (IOException ex) {
                                         ex.printStackTrace();
