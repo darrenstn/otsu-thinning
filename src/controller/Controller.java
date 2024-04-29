@@ -206,7 +206,7 @@ public class Controller {
                 step1.clear();
                 for (int x = 1; x < img.getWidth()- 1; x++) {
                     for (int y = 1; y < img.getHeight() - 1; y++) {
-                        if (((img.getRGB(x, y)>> 16) & 0xFF) == 255) {
+                        if (((img.getRGB(x, y)>> 16) & 0xFF) == 0) {
                             int b = functionB(new Point(x, y), img);
                             if (b >= 2 && b <= 6) {
                                 int a = functionA(new Point(x, y), img);
@@ -222,14 +222,14 @@ public class Controller {
                     }
                 }
                 for (Point temp : step1) {
-                    int result = (0 << 16) + (0 << 8) + 0; 
+                    int result = (255 << 16) + (255 << 8) + 255; 
                     img.setRGB(temp.x, temp.y, result);
                 }
 
                 step2.clear();
                 for (int x = 1; x < img.getWidth() - 1; x++) {
                     for (int y = 1; y < img.getHeight() - 1; y++) {
-                        if (((img.getRGB(x, y)>> 16) & 0xFF) == 255) {
+                        if (((img.getRGB(x, y)>> 16) & 0xFF) == 0) {
                             int b = functionB(new Point(x, y), img);
                             if (b >= 2 && b <= 6) {
                                 int a = functionA(new Point(x, y), img);
@@ -245,7 +245,7 @@ public class Controller {
                     }
                 }
                 for (Point temp : step2) {
-                    int result = (0 << 16) + (0 << 8) + 0; 
+                    int result = (255 << 16) + (255 << 8) + 255; 
                     img.setRGB(temp.x, temp.y, result);
                 }
 
