@@ -115,7 +115,7 @@ public class Controller {
                 backgroundMean /= totalBackgroundPixel;
             }
             for(int i = 0; i < uniquePixels.indexOf(threshold); i++) {
-                backgroundVariance += ((uniquePixels.get(i).getQty()-backgroundMean) * (uniquePixels.get(i).getQty()-backgroundMean));
+                backgroundVariance += (((uniquePixels.get(i).getValue()-backgroundMean) * (uniquePixels.get(i).getValue()-backgroundMean))* uniquePixels.get(i).getQty());//Re-check with the formula(Maybe need to times with qty) (Also maybe this line not conforming the formula) -> after check, this line seems to be the problem and already fixed
             }
             if (totalBackgroundPixel!=0) {
                 backgroundVariance /= totalBackgroundPixel;
@@ -134,7 +134,7 @@ public class Controller {
                 foregroundMean /= totalForegroundPixel;
             }
             for(int i = uniquePixels.indexOf(threshold); i < uniquePixels.size(); i++) {
-                foregroundVariance += ((uniquePixels.get(i).getQty()-foregroundMean) * (uniquePixels.get(i).getQty()-foregroundMean));
+                foregroundVariance += (((uniquePixels.get(i).getValue()-foregroundMean) * (uniquePixels.get(i).getValue()-foregroundMean)) * uniquePixels.get(i).getQty());
             }
             if (totalForegroundPixel!=0) {
                 foregroundVariance /= totalForegroundPixel;
